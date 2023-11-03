@@ -114,6 +114,7 @@ input::placeholder {
   gap: 1.2rem;
   justify-content: center;
   align-content: start;
+  height: 100vh;
 }
 
 .list li {
