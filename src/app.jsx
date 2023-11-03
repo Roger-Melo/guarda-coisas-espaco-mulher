@@ -23,6 +23,13 @@ const App = () => {
   const handleClickDelete = (id) =>
     setItems((prev) => prev.filter((item) => item.id !== id))
 
+  const handleClickCheck = (id) =>
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, stored: !item.stored } : item,
+      ),
+    )
+
   return (
     <>
       <form className="add-form" onSubmit={handleSubmit}>
@@ -42,8 +49,12 @@ const App = () => {
         <ul>
           {items.map((item) => (
             <li key={item.id}>
-              <input type="checkbox" />
-              <span>
+              <input
+                type="checkbox"
+                checked={item.stored}
+                onChange={() => handleClickCheck(item.id)}
+              />
+              <span className={item.stored ? "line-through" : ""}>
                 {item.quantity} {item.name}
               </span>
               <button onClick={() => handleClickDelete(item.id)}>❌</button>
