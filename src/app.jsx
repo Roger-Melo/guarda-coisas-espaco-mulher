@@ -20,6 +20,9 @@ const App = () => {
     ])
   }
 
+  const handleClickDelete = (id) =>
+    setItems((prev) => prev.filter((item) => item.id !== id))
+
   return (
     <>
       <form className="add-form" onSubmit={handleSubmit}>
@@ -43,7 +46,7 @@ const App = () => {
               <span>
                 {item.quantity} {item.name}
               </span>
-              <button>❌</button>
+              <button onClick={() => handleClickDelete(item.id)}>❌</button>
             </li>
           ))}
         </ul>
