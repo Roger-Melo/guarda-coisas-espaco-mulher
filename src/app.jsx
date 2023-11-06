@@ -63,6 +63,7 @@ const Filters = ({ orderBy, onChangeOrder }) => (
     <select value={orderBy} onChange={onChangeOrder}>
       <option value="newest">Ordenar por mais recentes</option>
       <option value="stored">Mostrar guardados</option>
+      <option value="alphabetically">Ordem alfabética</option>
     </select>
   </div>
 )
@@ -98,7 +99,11 @@ const App = () => {
 
   const handleChangeOrder = (e) => setOrderBy(e.target.value)
 
-  const sortedItems = orderBy === "stored" ? items.filter((item) => item.stored) : items
+  const sortedItems = orderBy === "stored"
+    ? items.filter((item) => item.stored)
+    : orderBy === "alphabetically"
+      ? items.toSorted((a, b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0)
+      : items
 
   return (
     <>
