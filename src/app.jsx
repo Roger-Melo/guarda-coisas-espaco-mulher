@@ -23,6 +23,23 @@ const initialItems = [
   },
 ]
 
+const FormAddItem = ({ onHandleSubmit }) => (
+  <form className="add-form" onSubmit={onHandleSubmit}>
+    <h3>O que você precisa guardar?</h3>
+
+    <select name="selectQtd">
+      {ids.map((id, index) => (
+        <option key={id} value={index + 1}>
+          {index + 1}
+        </option>
+      ))}
+    </select>
+
+    <input name="inputAdd" placeholder="Manda aqui" autoFocus />
+    <button className="add-btn">Adicionar</button>
+  </form>
+)
+
 const App = () => {
   const [items, setItems] = useState(initialItems)
   const [orderBy, setOrderBy] = useState("newest")
@@ -58,18 +75,7 @@ const App = () => {
 
   return (
     <>
-      <form className="add-form" onSubmit={handleSubmit}>
-        <h3>O que você precisa guardar?</h3>
-        <select name="selectQtd">
-          {ids.map((id, index) => (
-            <option key={id} value={index + 1}>
-              {index + 1}
-            </option>
-          ))}
-        </select>
-        <input name="inputAdd" placeholder="Manda aqui" autoFocus />
-        <button className="add-btn">Adicionar</button>
-      </form>
+      <FormAddItem onHandleSubmit={handleSubmit} />
 
       <div className="list">
         <ul>
