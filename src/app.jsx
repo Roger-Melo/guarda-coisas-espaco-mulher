@@ -58,6 +58,15 @@ const ListOfItems = ({ sortedItems, onClickCheck, onClickDelete }) => (
   </ul>
 )
 
+const Filters = ({ orderBy, onChangeOrder }) => (
+  <div className="actions">
+    <select value={orderBy} onChange={onChangeOrder}>
+      <option value="newest">Ordenar por mais recentes</option>
+      <option value="stored">Mostrar guardados</option>
+    </select>
+  </div>
+)
+
 const App = () => {
   const [items, setItems] = useState(initialItems)
   const [orderBy, setOrderBy] = useState("newest")
@@ -94,20 +103,13 @@ const App = () => {
   return (
     <>
       <FormAddItem onHandleSubmit={handleSubmit} />
-
       <div className="list">
         <ListOfItems
           sortedItems={sortedItems}
           onClickCheck={handleClickCheck}
           onClickDelete={handleClickDelete}
         />
-
-        <div className="actions">
-          <select value={orderBy} onChange={handleChangeOrder}>
-            <option value="newest">Ordenar por mais recentes</option>
-            <option value="stored">Mostrar guardados</option>
-          </select>
-        </div>
+        <Filters orderBy={orderBy} onChangeOrder={handleChangeOrder} />
       </div>
     </>
   )
