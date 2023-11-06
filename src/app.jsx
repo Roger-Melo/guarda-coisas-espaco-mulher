@@ -2,8 +2,30 @@ import { useState } from "react"
 
 const ids = Array.from({ length: 20 }, () => crypto.randomUUID())
 
+const initialItems = [
+  {
+    id: crypto.randomUUID(),
+    quantity: 6,
+    name: "halteres 10kg",
+    stored: false,
+  },
+  {
+    id: crypto.randomUUID(),
+    quantity: 4,
+    name: "caneleiras 5kg",
+    stored: false,
+  },
+  {
+    id: crypto.randomUUID(),
+    quantity: 16,
+    name: "colchonetes",
+    stored: false,
+  },
+]
+
 const App = () => {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState(initialItems)
+  const [orderBy, setOrderBy] = useState("newest")
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -30,6 +52,10 @@ const App = () => {
       ),
     )
 
+  const handleChangeOrder = (e) => setOrderBy(e.target.value)
+
+  const sortedItems = orderBy === "stored" ? items.filter((item) => item.stored) : items
+
   return (
     <>
       <form className="add-form" onSubmit={handleSubmit}>
@@ -47,7 +73,7 @@ const App = () => {
 
       <div className="list">
         <ul>
-          {items.map((item) => (
+          {sortedItems.map((item) => (
             <li key={item.id}>
               <input
                 type="checkbox"
@@ -61,6 +87,13 @@ const App = () => {
             </li>
           ))}
         </ul>
+
+        <div className="actions">
+          <select value={orderBy} onChange={handleChangeOrder}>
+            <option value="newest">Ordenar por mais recentes</option>
+            <option value="stored">Mostrar guardados</option>
+          </select>
+        </div>
       </div>
     </>
   )
