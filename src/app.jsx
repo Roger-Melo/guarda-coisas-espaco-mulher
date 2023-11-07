@@ -2,27 +2,6 @@ import { useState } from "react"
 
 const ids = Array.from({ length: 20 }, () => crypto.randomUUID())
 
-const initialItems = [
-  {
-    id: crypto.randomUUID(),
-    quantity: 6,
-    name: "halteres 10kg",
-    stored: false,
-  },
-  {
-    id: crypto.randomUUID(),
-    quantity: 4,
-    name: "caneleiras 5kg",
-    stored: false,
-  },
-  {
-    id: crypto.randomUUID(),
-    quantity: 16,
-    name: "colchonetes",
-    stored: false,
-  },
-]
-
 const FormAddItem = ({ onHandleSubmit }) => (
   <form className="add-form" onSubmit={onHandleSubmit}>
     <h3>O que você precisa guardar?</h3>
@@ -93,8 +72,8 @@ const Logo = () => (
   </header>
 )
 
-const App = () => {
-  const [items, setItems] = useState(initialItems)
+const useItems = () => {
+  const [items, setItems] = useState([])
   const [orderBy, setOrderBy] = useState("newest")
 
   const handleSubmit = (e) => {
@@ -103,12 +82,7 @@ const App = () => {
 
     setItems((prev) => [
       ...prev,
-      {
-        id: crypto.randomUUID(),
-        quantity: +selectQtd.value,
-        name: inputAdd.value,
-        stored: false,
-      },
+      { id: crypto.randomUUID(), quantity: +selectQtd.value, name: inputAdd.value, stored: false }
     ])
   }
 
@@ -119,24 +93,38 @@ const App = () => {
   const handleClickCheck = (id) => setItems((prev) => prev
     .map((item) => item.id === id ? { ...item, stored: !item.stored } : item))
 
+  return {
+    items,
+    orderBy,
+    handleSubmit,
+    handleChangeOrder,
+    handleClickDelete,
+    handleClickClearBtn,
+    handleClickCheck
+  }
+}
+
+const App = () => {
+  const state = useItems()
+
   return (
     <div className="store-things">
       <Logo />
-      <FormAddItem onHandleSubmit={handleSubmit} />
+      <FormAddItem onHandleSubmit={state.handleSubmit} />
       <div className="list">
         <ListOfItems
-          orderBy={orderBy}
-          items={items}
-          onClickCheck={handleClickCheck}
-          onClickDelete={handleClickDelete}
+          orderBy={state.orderBy}
+          items={state.items}
+          onClickCheck={state.handleClickCheck}
+          onClickDelete={state.handleClickDelete}
         />
         <Filters
-          orderBy={orderBy}
-          onChangeOrder={handleChangeOrder}
-          onClickClearBtn={handleClickClearBtn}
+          orderBy={state.orderBy}
+          onChangeOrder={state.handleChangeOrder}
+          onClickClearBtn={state.handleClickClearBtn}
         />
       </div>
-      <Stats items={items} />
+      <Stats items={state.items} />
     </div>
   )
 }
