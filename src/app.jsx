@@ -40,23 +40,25 @@ const FormAddItem = ({ onHandleSubmit }) => (
   </form>
 )
 
-const ListOfItems = ({ sortedItems, onClickCheck, onClickDelete }) => (
-  <ul>
-    {sortedItems.map((item) => (
-      <li key={item.id}>
-        <input
-          type="checkbox"
-          checked={item.stored}
-          onChange={() => onClickCheck(item.id)}
-        />
-        <span className={item.stored ? "line-through" : ""}>
-          {item.quantity} {item.name}
-        </span>
-        <button onClick={() => onClickDelete(item.id)}>❌</button>
-      </li>
-    ))}
-  </ul>
-)
+const ListOfItems = ({ orderBy, items, onClickCheck, onClickDelete }) => {
+  const sortedItems = orderBy === "stored"
+    ? items.filter((item) => item.stored)
+    : orderBy === "alphabetically"
+      ? items.toSorted((a, b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0)
+      : items
+
+  return (
+    <ul>
+      {sortedItems.map((item) => (
+        <li key={item.id}>
+          <input type="checkbox" checked={item.stored} onChange={() => onClickCheck(item.id)} />
+          <span className={item.stored ? "line-through" : ""}>{item.quantity} {item.name}</span>
+          <button onClick={() => onClickDelete(item.id)}>❌</button>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 const Filters = ({ orderBy, onChangeOrder }) => (
   <div className="actions">
@@ -114,18 +116,13 @@ const App = () => {
 
   const handleChangeOrder = (e) => setOrderBy(e.target.value)
 
-  const sortedItems = orderBy === "stored"
-    ? items.filter((item) => item.stored)
-    : orderBy === "alphabetically"
-      ? items.toSorted((a, b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0)
-      : items
-
   return (
     <>
       <FormAddItem onHandleSubmit={handleSubmit} />
       <div className="list">
         <ListOfItems
-          sortedItems={sortedItems}
+          orderBy={orderBy}
+          items={items}
           onClickCheck={handleClickCheck}
           onClickDelete={handleClickDelete}
         />
