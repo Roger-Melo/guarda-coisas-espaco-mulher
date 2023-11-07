@@ -86,6 +86,13 @@ const Stats = ({ items }) => {
   )
 }
 
+const Logo = () => (
+  <header>
+    <img className="img-logo" src="logo-espaco-mulher.png" alt="Logo Espaço Mulher" />
+    <h1>Espaço Mulher</h1>
+  </header>
+)
+
 const App = () => {
   const [items, setItems] = useState(initialItems)
   const [orderBy, setOrderBy] = useState("newest")
@@ -113,7 +120,8 @@ const App = () => {
     .map((item) => item.id === id ? { ...item, stored: !item.stored } : item))
 
   return (
-    <>
+    <div className="store-things">
+      <Logo />
       <FormAddItem onHandleSubmit={handleSubmit} />
       <div className="list">
         <ListOfItems
@@ -129,7 +137,7 @@ const App = () => {
         />
       </div>
       <Stats items={items} />
-    </>
+    </div>
   )
 }
 
