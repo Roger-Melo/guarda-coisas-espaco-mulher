@@ -60,13 +60,14 @@ const ListOfItems = ({ orderBy, items, onClickCheck, onClickDelete }) => {
   )
 }
 
-const Filters = ({ orderBy, onChangeOrder }) => (
+const Filters = ({ orderBy, onChangeOrder, onClickClearBtn }) => (
   <div className="actions">
     <select value={orderBy} onChange={onChangeOrder}>
       <option value="newest">Ordenar por mais recentes</option>
       <option value="stored">Mostrar guardados</option>
       <option value="alphabetically">Ordem alfabética</option>
     </select>
+    <button onClick={onClickClearBtn}>Limpar lista</button>
   </div>
 )
 
@@ -104,17 +105,12 @@ const App = () => {
     ])
   }
 
-  const handleClickDelete = (id) =>
-    setItems((prev) => prev.filter((item) => item.id !== id))
-
-  const handleClickCheck = (id) =>
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, stored: !item.stored } : item,
-      ),
-    )
-
   const handleChangeOrder = (e) => setOrderBy(e.target.value)
+  const handleClickDelete = (id) => setItems((prev) => prev.filter((item) => item.id !== id))
+  const handleClickClearBtn = () => setItems([])
+
+  const handleClickCheck = (id) => setItems((prev) => prev
+    .map((item) => item.id === id ? { ...item, stored: !item.stored } : item))
 
   return (
     <>
@@ -126,7 +122,11 @@ const App = () => {
           onClickCheck={handleClickCheck}
           onClickDelete={handleClickDelete}
         />
-        <Filters orderBy={orderBy} onChangeOrder={handleChangeOrder} />
+        <Filters
+          orderBy={orderBy}
+          onChangeOrder={handleChangeOrder}
+          onClickClearBtn={handleClickClearBtn}
+        />
       </div>
       <Stats items={items} />
     </>
