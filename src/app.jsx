@@ -2,22 +2,40 @@ import { useState } from "react"
 
 const ids = Array.from({ length: 20 }, () => crypto.randomUUID())
 
-const FormAddItem = ({ onHandleSubmit }) => (
-  <form className="add-form" onSubmit={onHandleSubmit}>
-    <h3>O que você precisa guardar?</h3>
+const FormAddItem = ({ onSubmitItem }) => {
+  const [inputValue, setInputValue] = useState('')
+  const [selectValue, setSelectValue] = useState('1')
 
-    <select name="selectQtd">
-      {ids.map((id, index) => (
-        <option key={id} value={index + 1}>
-          {index + 1}
-        </option>
-      ))}
-    </select>
+  const handleChangeInput = (e) => setInputValue(e.target.value)
+  const handleChangeSelect = (e) => setSelectValue(e.target.value)
 
-    <input name="inputAdd" placeholder="Manda aqui" autoFocus />
-    <button className="add-btn">Adicionar</button>
-  </form>
-)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    onSubmitItem({
+      id: crypto.randomUUID(),
+      quantity: +selectValue,
+      name: inputValue,
+      stored: false
+    })
+
+    setInputValue('')
+    setSelectValue('1')
+  }
+
+  return (
+    <form className="add-form" onSubmit={handleSubmit}>
+      <h3>O que você precisa guardar?</h3>
+
+      <select value={selectValue} onChange={handleChangeSelect}>
+        {ids.map((id, index) => <option key={id} value={index + 1}>{index + 1}</option>)}
+      </select>
+
+      <input value={inputValue} onChange={handleChangeInput} placeholder="Manda aqui" autoFocus />
+      <button className="add-btn">Adicionar</button>
+    </form>
+  )
+}
 
 const ListOfItems = ({ orderBy, items, onClickCheck, onClickDelete }) => {
   const sortedItems = orderBy === "stored"
@@ -76,16 +94,7 @@ const useItems = () => {
   const [items, setItems] = useState([])
   const [orderBy, setOrderBy] = useState("newest")
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const { selectQtd, inputAdd } = e.target.elements
-
-    setItems((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), quantity: +selectQtd.value, name: inputAdd.value, stored: false }
-    ])
-  }
-
+  const handleSubmitForm = (newItem) => setItems((prev) => [...prev, newItem])
   const handleChangeOrder = (e) => setOrderBy(e.target.value)
   const handleClickDelete = (id) => setItems((prev) => prev.filter((item) => item.id !== id))
   const handleClickClearBtn = () => setItems([])
@@ -96,7 +105,7 @@ const useItems = () => {
   return {
     items,
     orderBy,
-    handleSubmit,
+    handleSubmitForm,
     handleChangeOrder,
     handleClickDelete,
     handleClickClearBtn,
@@ -110,7 +119,7 @@ const App = () => {
   return (
     <div className="store-things">
       <Logo />
-      <FormAddItem onHandleSubmit={state.handleSubmit} />
+      <FormAddItem onSubmitItem={state.handleSubmitForm} />
       <div className="list">
         <ListOfItems
           orderBy={state.orderBy}
