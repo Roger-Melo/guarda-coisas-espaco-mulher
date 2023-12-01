@@ -1,8 +1,24 @@
-import { useState } from 'react'
+import localforage from "localforage"
+import { useState, useEffect } from "react"
 
 const useItems = () => {
   const [items, setItems] = useState([])
   const [orderBy, setOrderBy] = useState("newest")
+
+  useEffect(() => {
+    localforage.setItem("guardaCoisas", items)
+      .catch((error) => alert(error.message))
+  }, [items])
+
+  useEffect(() => {
+    localforage.getItem("guardaCoisas")
+      .then((value) => {
+        if (value) {
+          setItems(value)
+        }
+      })
+      .catch((error) => alert(error.message))
+  }, [])
 
   const handleSubmitForm = (newItem) => setItems((prev) => [...prev, newItem])
   const handleChangeOrder = (e) => setOrderBy(e.target.value)
