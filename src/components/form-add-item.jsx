@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import styles from './form-add-item.module.css'
 
 const ids = Array.from({ length: 20 }, () => crypto.randomUUID())
 
@@ -24,7 +25,7 @@ const FormAddItem = ({ onSubmitItem }) => {
   }
 
   return (
-    <form className="add-form" onSubmit={handleSubmit}>
+    <form className={styles.addForm} onSubmit={handleSubmit}>
       <h3>O que você precisa guardar?</h3>
 
       <select value={selectValue} onChange={handleChangeSelect}>
@@ -32,7 +33,7 @@ const FormAddItem = ({ onSubmitItem }) => {
       </select>
 
       <input value={inputValue} onChange={handleChangeInput} placeholder="Manda aqui" autoFocus />
-      <button className="add-btn">Adicionar</button>
+      <button>Adicionar</button>
     </form>
   )
 }
