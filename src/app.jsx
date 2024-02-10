@@ -1,9 +1,9 @@
 import { useItems } from './hooks/use-items'
-import { FormAddItem } from './components/form-add-item/form-add-item'
-import { ListOfItems } from './components/list-of-items/list-of-items'
-import { Filters } from './components/filters/filters'
-import { Stats } from './components/stats/stats'
-import { Logo } from './components/logo/logo'
+import { FormAddItem } from './components/form-add-item'
+import { ListOfItems } from './components/list-of-items'
+import { Filters } from './components/filters'
+import { Stats } from './components/stats'
+import { Logo } from './components/logo'
 import styles from './app.module.css'
 
 const App = () => {
