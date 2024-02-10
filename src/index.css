@@ -16,17 +16,6 @@ body {
   font-weight: 400;
 }
 
-.store-things {
-  width: 100%;
-  height: 100vh;
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-}
-
-.img-logo {
-  margin-right: 2rem;
-}
-
 header {
   background-color: #2E4374;
   display: flex;
@@ -40,15 +29,6 @@ h1 {
   font-size: 64px;
   font-weight: 700;
   padding: 2.4rem 0;
-}
-
-.add-form {
-  background-color: #4B527E;
-  padding: 2.8rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
 }
 
 h3 {
@@ -76,74 +56,9 @@ input::placeholder {
   font-weight: 400;
 }
 
-.add-form button {
-  background-color: #FF6086;
-  font-weight: 700;
-}
-
-.list {
-  background-color: #E5C3A6;
-  color: #4B527E;
-  padding: 4rem 0;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  gap: 3.2rem;
-  align-items: center;
-}
-
-.actions button,
-.list select {
-  padding: 0.8rem 2.4rem;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin: 0 0.8rem;
-}
-
-.actions button {
-  background-color: #FF854A;
-}
-
-
-.list ul {
-  list-style: none;
-  width: 80%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.2rem;
-  justify-content: center;
-  align-content: start;
-}
-
-.list li {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-}
-
 input[type="checkbox"] {
   margin-right: 1rem;
   height: 2rem;
   width: 2rem;
   accent-color: #7C81AD;
-}
-
-.list li button {
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  padding: 0.8rem;
-  transform: translateY(2px);
-}
-
-.stats {
-  background-color: #4B527E;
-  text-align: center;
-  font-weight: 400;
-  padding: 3.2rem 0;
-}
-
-.line-through {
-  text-decoration: line-through;
 }

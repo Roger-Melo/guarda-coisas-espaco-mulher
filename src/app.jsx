@@ -4,15 +4,16 @@ import { ListOfItems } from './components/list-of-items'
 import { Filters } from './components/filters'
 import { Stats } from './components/stats'
 import { Logo } from './components/logo'
+import styles from './app.module.css'
 
 const App = () => {
   const state = useItems()
 
   return (
-    <div className="store-things">
+    <div className={styles.storeThings}>
       <Logo />
       <FormAddItem onSubmitItem={state.handleSubmitForm} />
-      <div className="list">
+      <div className={styles.list}>
         <ListOfItems
           orderBy={state.orderBy}
           items={state.items}
